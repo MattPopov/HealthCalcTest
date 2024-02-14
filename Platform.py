@@ -10,6 +10,7 @@ UML схема модуля
 
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 
 class User:
@@ -66,12 +67,19 @@ class Harrington:
 
     def __init__(self, _health: Health = None):
         self.h_bad = 0.20  # С
-        self.h_good = 0.63  # С
+        self.h_good = 0.63    # С
 
     @staticmethod
-    def calc(bad: float, good: float):
-        print(bad, good)
-        return bad, good
+    def calc(bad: float, good: float, value: float):
+        param1 = math.log(math.log(1/0.63))
+        param2 = math.log(math.log(1/0.2))
+        b1 = (param1-param2)/(good-bad)
+        b0 = param2-bad*b1
+        good = math.exp(-math.exp(b0+b1*good))
+        bad = math.exp(-math.exp(b0+b1*bad))
+        value = math.exp(-math.exp(b0+b1*value))
+        print(bad, good, value)
+        return bad, good, value
 
 
 class IMT:
@@ -102,4 +110,4 @@ class Heart:
 if __name__ == '__main__':
     user = User()  # Создаем объект
     user.health.heart.calc()
-    user.health.harrington.calc(320, 430)
+    user.health.harrington.calc(320, 430, 500)
