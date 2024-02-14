@@ -71,12 +71,12 @@ class Harrington:
 
     @staticmethod
     def calc(bad: float, good: float, value: float):
-        param1 = math.log(math.log(1/0.63))
-        param2 = math.log(math.log(1/0.2))
-        b1 = (param1-param2)/(good-bad)
+        param1 = math.log(math.log(1/0.63)) #нахождение параметра y'
+        param2 = math.log(math.log(1/0.2)) #нахождение параметра y'
+        b1 = (param1-param2)/(good-bad) #нахождение b0 и b1 по значениям парамтеров y'
         b0 = param2-bad*b1
         good = math.exp(-math.exp(b0+b1*good))
-        bad = math.exp(-math.exp(b0+b1*bad))
+        bad = math.exp(-math.exp(b0+b1*bad)) #функция желательности Харрингтона для искомого значения и good/bad
         value = math.exp(-math.exp(b0+b1*value))
         print(bad, good, value)
         return bad, good, value
